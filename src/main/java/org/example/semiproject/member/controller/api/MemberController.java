@@ -26,7 +26,8 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("sitekey", sitekey);
         return "views/member/login";
     }
 
