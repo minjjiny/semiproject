@@ -2,7 +2,10 @@ package org.example.semiproject.member.controller.api;
 
 import jakarta.servlet.http.HttpSession;
 import org.example.semiproject.member.domain.Member;
+import org.example.semiproject.member.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,26 +35,28 @@ public class MemberController {
     }
 
     @GetMapping("/myinfo")
-    public String myinfo(Model model, HttpSession session) {
+    public String myinfo(Model model, Authentication authentication) {
         String returnPage = "redirect:/member/login";
-//        Member user = new Member(0,"abc123","abc123","abc123",
-//                "abc123@abc123.co.kr", LocalDateTime.now());
 
-//        model.addAttribute("loginUser", user);
-        // 세션변수가 생성되어 있다면 myinfo로 이동 가능
-        if(session.getAttribute("loginUser") != null) {
-            model.addAttribute("loginUser", session.getAttribute("loginUser"));
+        if (authentication != null && authentication.isAuthenticated()) {
+            // UserDetails에서 아이디 등 정보 추출
+            CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+
+            // UserDetails의 사용자 정보와 myinfo에 출력 시 사용자 정보 형식이 다르기 때문에 일치시키는 작업 필요
+//            Member newOne = new Member(0, user.getUsername(), "", "-", "-", LocalDateTime.now());
+
+            model.addAttribute("loginUser", user);
             returnPage = "views/member/myinfo";
         }
-
 
         return returnPage;
     }
 
-    @GetMapping("/logout")
+    // security가 로그아웃 처리해줌
+    /*@GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
 
-        return "redirect:/";
-    }
+        return "redirect:/member/logout";
+    }*/
 }
