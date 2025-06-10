@@ -35,19 +35,8 @@ public class MemberController {
     }
 
     @GetMapping("/myinfo")
-    public String myinfo(Model model, Authentication authentication) {
-        String returnPage = "redirect:/member/login";
-
-        if (authentication != null && authentication.isAuthenticated()) {
-            // UserDetails에서 아이디 등 정보 추출
-            CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
-
-            // UserDetails의 사용자 정보와 myinfo에 출력 시 사용자 정보 형식이 다르기 때문에 일치시키는 작업 필요
-//            Member newOne = new Member(0, user.getUsername(), "", "-", "-", LocalDateTime.now());
-
-            model.addAttribute("loginUser", user);
-            returnPage = "views/member/myinfo";
-        }
+    public String myinfo() {
+        String returnPage = "views/member/myinfo";
 
         return returnPage;
     }
