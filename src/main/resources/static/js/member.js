@@ -158,14 +158,15 @@ const submitLoginfrm = async (frm, token, headerName) => {
     // reCAPTCHA 토큰 추가
     formData.append('recaptchaToken', response);
 
-    // fetch('/api/v1/member/login', { // security에서는 필요 없음
-    fetch('/member/login', { // security에서 자동 처리
+    fetch('/api/v1/member/login', { // jwt에서는 다시 사용
         method: 'POST',
         body: formData
     }).then(async response => {
         if (response.ok) { // 로그인이 성공했다면
-            // alert(await response.text()); // security에서는 필요 없음
-            alert('로그인 성공 !!');
+            let data = await response.json();
+            console.log(data.token);
+            alert(data.message); // 로그인 성공 메세지
+            sessionStorage.setItem('jwt', data.token); //jwt 토큰 저장
             location.href = '/member/myinfo';
         } else if (response.status === 400) {
             alert(await response.text());
