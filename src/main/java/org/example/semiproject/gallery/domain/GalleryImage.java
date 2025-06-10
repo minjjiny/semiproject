@@ -15,6 +15,9 @@ import jakarta.persistence.*;
 public class GalleryImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(nullable = false)
     private int gno;
 
     @Column(nullable = false)

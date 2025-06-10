@@ -35,6 +35,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/v1/member/login",     // API 로그인
                                 "/api/v1/member/join",      // API 회원가입
+                                "/api/v1/gallery/write",      // API 갤러리 글쓰기
                                 "/api/v1/jwt/auth",         // JWT 인증 관련 엔드포인트
                                 "/member/**",               // 모든 /member 경로
                                 "/gallery/**",               // 모든 /member 경로
